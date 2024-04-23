@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/compiler-project.iml" filepath="$PROJECT_DIR$/compiler-project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/edu.citadel.compiler/edu.citadel.compiler.iml" filepath="$PROJECT_DIR$/edu.citadel.compiler/edu.citadel.compiler.iml" />
     </modules>
   </component>
 </project>
