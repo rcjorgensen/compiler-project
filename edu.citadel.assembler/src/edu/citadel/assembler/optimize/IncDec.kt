@@ -13,10 +13,8 @@ import edu.citadel.assembler.ast.InstructionOneArg
  * Basically, this class looks for patterns of the form "LDCINT 1, ADD" and
  * replaces it with "INC", and similarly for SUB.
  */
-class IncDec : Optimization
-  {
-    override fun optimize(instructions : MutableList<Instruction>, instNum : Int)
-      {
+class IncDec : Optimization {
+    override fun optimize(instructions: MutableList<Instruction>, instNum: Int) {
         // quick check that there are at least 2 instructions remaining
         if (instNum > instructions.size - 2)
             return
@@ -32,36 +30,30 @@ class IncDec : Optimization
         instruction0 as InstructionOneArg
         val arg0 = instruction0.arg.text
 
-        if (arg0 == "1")
-          {
+        if (arg0 == "1") {
             // Make sure that instruction1 does not have any labels
             val inst1Labels = instruction1.labels
-            if (inst1Labels.isEmpty())
-              {
+            if (inst1Labels.isEmpty()) {
                 val symbol1 = instruction1.opcode.symbol
 
-                if (symbol1 == Symbol.ADD)
-                  {
+                if (symbol1 == Symbol.ADD) {
                     // replace LDCINT by INC
                     val incToken = Token(Symbol.INC)
                     val labels = instruction0.labels
                     val incInst = InstructionINC(labels, incToken)
                     instructions[instNum] = incInst
-                  }
-                else if (symbol1 == Symbol.SUB)
-                  {
+                } else if (symbol1 == Symbol.SUB) {
                     // replace LDCINT 1 by DEC
                     val decToken = Token(Symbol.DEC)
                     val labels = instruction0.labels
                     val decInst = InstructionDEC(labels, decToken)
                     instructions[instNum] = decInst
-                  }
-                else
+                } else
                     return
 
                 // remove the ADD/SUB instruction
                 instructions.removeAt(instNum + 1)
-              }
-          }
-      }
-  }
+            }
+        }
+    }
+}

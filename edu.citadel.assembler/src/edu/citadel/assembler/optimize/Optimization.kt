@@ -8,7 +8,6 @@ import edu.citadel.assembler.ast.Instruction
  * that instruction plus the next several instructions.  Any class that
  * implements this interface can remove/replace instructions in the list.
  */
-interface Optimization
-  {
-    fun optimize(instructions : MutableList<Instruction>, instNum : Int)
-  }
+interface Optimization {
+    fun optimize(instructions: MutableList<Instruction>, instNum: Int)
+}

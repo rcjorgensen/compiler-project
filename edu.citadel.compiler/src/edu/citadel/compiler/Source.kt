@@ -9,8 +9,7 @@ import java.io.Reader
  * @constructor Initialize source with a reader.
  * @param sourceReader the reader used to read characters from the source file.
  */
-class Source(private val sourceReader : Reader)
-  {
+class Source(private val sourceReader: Reader) {
     /**
      * A constant representing end of file.
      */
@@ -33,30 +32,26 @@ class Source(private val sourceReader : Reader)
      * The position (line number, char number) of the current character
      * in the source file.
      */
-    val charPosition : Position
+    val charPosition: Position
         get() = Position(lineNumber, charNumber)
 
     /**
      * Advance to the first character.
      */
-    init
-      {
+    init {
         advance()   // advance to the first character
-      }
+    }
 
     /**
      * Advance to the next character in the source file.
      */
-    fun advance()
-      {
-        if (currentChar == '\n'.code)
-          {
+    fun advance() {
+        if (currentChar == '\n'.code) {
             ++lineNumber
             charNumber = 1
-          }
-        else
+        } else
             ++charNumber
 
         currentChar = sourceReader.read()
-      }
-  }
+    }
+}

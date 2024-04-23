@@ -6,8 +6,7 @@ package edu.citadel.cprl
  *
  * @constructor Construct a new symbol with its label.
  */
-enum class Symbol(val label : String)
-  {
+enum class Symbol(val label: String) {
     // reserved words
     BooleanRW("Boolean"),
     CharRW("Char"),
@@ -86,80 +85,74 @@ enum class Symbol(val label : String)
     /**
      * Returns true if this symbol is a CPRL reserved word.
      */
-    fun isReservedWord() : Boolean = this in BooleanRW..writelnRW
+    fun isReservedWord(): Boolean = this in BooleanRW..writelnRW
 
     /**
      * Returns true if this symbol can start an initial declaration.
      */
-    fun isInitialDeclStarter() : Boolean
-        = this == constRW || this == varRW || this == typeRW
+    fun isInitialDeclStarter(): Boolean = this == constRW || this == varRW || this == typeRW
 
     /**
      * Returns true if this symbol can start a subprogram declaration.
      */
-    fun isSubprogramDeclStarter() : Boolean = this == procRW || this == funRW
+    fun isSubprogramDeclStarter(): Boolean = this == procRW || this == funRW
 
     /**
      * Returns true if this symbol can start a statement.
      */
-    fun isStmtStarter() : Boolean
-        =  this == identifier || this == leftBrace || this == ifRW
-        || this == loopRW     || this == whileRW   || this == exitRW
-        || this == readRW     || this == writeRW   || this == writelnRW
-        || this == returnRW
+    fun isStmtStarter(): Boolean = this == identifier || this == leftBrace || this == ifRW
+            || this == loopRW || this == whileRW || this == exitRW
+            || this == readRW || this == writeRW || this == writelnRW
+            || this == returnRW
 
     /**
      * Returns true if this symbol is a literal.
      */
-    fun isLiteral() : Boolean
-        =  this == intLiteral || this == charLiteral || this == stringLiteral
-        || this == trueRW     || this == falseRW
+    fun isLiteral(): Boolean = this == intLiteral || this == charLiteral || this == stringLiteral
+            || this == trueRW || this == falseRW
 
     /**
      * Returns true if this symbol can start an expression.
      */
-    fun isExprStarter() : Boolean
-        = isLiteral()   || this == identifier || this == leftParen
-        || this == plus || this == minus      || this == notRW
+    fun isExprStarter(): Boolean = isLiteral() || this == identifier || this == leftParen
+            || this == plus || this == minus || this == notRW
 
     /**
      * Returns true if this symbol can start a parameter declaration.
      */
-    fun isParameterDeclStarter() : Boolean = this == identifier || this == varRW
+    fun isParameterDeclStarter(): Boolean = this == identifier || this == varRW
 
     /**
      * Returns true if this symbol can start a variable selector.
      */
-    fun isSelectorStarter() : Boolean = this == leftBracket || this == dot
+    fun isSelectorStarter(): Boolean = this == leftBracket || this == dot
 
     /**
      * Returns true if this symbol is a logical operator.
      */
-    fun isLogicalOperator() : Boolean = this == andRW || this == orRW
+    fun isLogicalOperator(): Boolean = this == andRW || this == orRW
 
     /**
      * Returns true if this symbol is a relational operator.
      */
-    fun isRelationalOperator() : Boolean
-        =  this == equals      || this == notEqual
-        || this == lessThan    || this == lessOrEqual
-        || this == greaterThan || this == greaterOrEqual
+    fun isRelationalOperator(): Boolean = this == equals || this == notEqual
+            || this == lessThan || this == lessOrEqual
+            || this == greaterThan || this == greaterOrEqual
 
     /**
      * Returns true if this symbol is a binary adding operator.
      */
-    fun isAddingOperator() : Boolean = this == plus || this == minus
+    fun isAddingOperator(): Boolean = this == plus || this == minus
 
     /**
      * Returns true if this symbol is a unary sign operator.
      */
-    fun isSignOperator() : Boolean = this == plus || this == minus
+    fun isSignOperator(): Boolean = this == plus || this == minus
 
     /**
      * Returns true if this symbol is a multiplying operator.
      */
-    fun isMultiplyingOperator() : Boolean
-        = this == times || this == divide || this == modRW
+    fun isMultiplyingOperator(): Boolean = this == times || this == divide || this == modRW
 
-    override fun toString() : String = label
-  }
+    override fun toString(): String = label
+}

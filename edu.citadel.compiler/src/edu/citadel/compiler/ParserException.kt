@@ -9,5 +9,4 @@ package edu.citadel.compiler
  * @param position the position in the source file where the error was detected.
  * @param errorMsg a brief message about the nature of the error.
  */
-class ParserException(position : Position, errorMsg : String)
-    : CompilerException("Syntax", position, errorMsg)
+class ParserException(position: Position, errorMsg: String) : CompilerException("Syntax", position, errorMsg)

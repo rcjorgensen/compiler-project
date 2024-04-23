@@ -10,12 +10,10 @@ import edu.citadel.assembler.ast.InstructionOneArg
  * has no targeted labels, then that instruction is unreachable (dead) and can be removed.
  */
 
-class DeadCodeElimination : Optimization
-  {
+class DeadCodeElimination : Optimization {
     private val labelBranchCounts: MutableMap<String, Int> = HashMap()
 
-    override fun optimize(instructions: MutableList<Instruction>, instNum: Int)
-      {
+    override fun optimize(instructions: MutableList<Instruction>, instNum: Int) {
         // quick check that there are at least 2 instructions remaining
         if (instNum > instructions.size - 2)
             return
@@ -25,84 +23,72 @@ class DeadCodeElimination : Optimization
         // instruction gets removed, decrement the corresponding n for its target label.
         // Any instruction that follows a return or an unconditional branch is unreachable
         // if it has no labels OR if the total count of branches to it is zero.
-        if (instNum == 1)
-          {
-            for (inst in instructions)
-              {
-                if (isBranchOrCallInstruction(inst))
-                  {
+        if (instNum == 1) {
+            for (inst in instructions) {
+                if (isBranchOrCallInstruction(inst)) {
                     val labelTarget = getLabelTarget(inst as InstructionOneArg)
-                    if (labelBranchCounts.containsKey(labelTarget))
-                      {
+                    if (labelBranchCounts.containsKey(labelTarget)) {
                         // increment the branch count for this label
                         val count = labelBranchCounts[labelTarget]!!
                         labelBranchCounts[labelTarget] = count + 1
-                      }
-                    else
+                    } else
                         labelBranchCounts[labelTarget] = 1
-                  }
-              }
-          }
+                }
+            }
+        }
 
         val instruction0 = instructions[instNum]
-        val symbol0      = instruction0.opcode.symbol
+        val symbol0 = instruction0.opcode.symbol
 
         // Check that symbol0 is either an unconditional branch or a return instruction.
-        if (symbol0 == Symbol.BR || symbol0.isReturnSymbol())
-          {
+        if (symbol0 == Symbol.BR || symbol0.isReturnSymbol()) {
             val instruction1 = instructions[instNum + 1]
-            val labels1      = instruction1.labels
+            val labels1 = instruction1.labels
 
             // check that the second instruction does not have any labels
-            if (labels1.isEmpty() || getTotalBranchCounts(labels1) == 0)
-              {
-                if (isBranchOrCallInstruction(instruction1))
-                  {
+            if (labels1.isEmpty() || getTotalBranchCounts(labels1) == 0) {
+                if (isBranchOrCallInstruction(instruction1)) {
                     // decrement the branch count for this label in this instruction
                     val labelTarget = getLabelTarget(instruction1 as InstructionOneArg)
                     val count = labelBranchCounts[labelTarget]
                     if (count != null)
                         labelBranchCounts[labelTarget] = count - 1
-                  }
+                }
 
                 // We are free to remove the second instruction.
                 instructions.removeAt(instNum + 1)
-              }
-          }
-      }
+            }
+        }
+    }
 
-    private fun getLabelTarget(instruction: InstructionOneArg): String
-      {
+    private fun getLabelTarget(instruction: InstructionOneArg): String {
         assert(isBranchOrCallInstruction(instruction))
-          { "invalid branch instruction" }
+        { "invalid branch instruction" }
         val targetLabel = instruction.arg
         assert(targetLabel.symbol == Symbol.identifier)
-          { "invalid argument for branch instruction" }
+        { "invalid argument for branch instruction" }
         return targetLabel.text + ":"
-      }
+    }
 
-    private fun isBranchOrCallInstruction(instruction: Instruction): Boolean
-      = instruction.opcode.symbol.isBranchOrCallSymbol()
+    private fun isBranchOrCallInstruction(instruction: Instruction): Boolean =
+        instruction.opcode.symbol.isBranchOrCallSymbol()
 
-    private fun Symbol.isBranchOrCallSymbol(): Boolean
-      {
-        return when (this)
-          {
-            Symbol.BR, Symbol.BE,  Symbol.BNE, Symbol.BG,  Symbol.BGE,
-            Symbol.BL, Symbol.BLE, Symbol.BZ,  Symbol.BNZ, Symbol.CALL -> true
+    private fun Symbol.isBranchOrCallSymbol(): Boolean {
+        return when (this) {
+            Symbol.BR, Symbol.BE, Symbol.BNE, Symbol.BG, Symbol.BGE,
+            Symbol.BL, Symbol.BLE, Symbol.BZ, Symbol.BNZ, Symbol.CALL -> true
+
             else -> false
-          }
-      }
+        }
+    }
 
-    private fun Symbol.isReturnSymbol(): Boolean
-      = this == Symbol.RET || this == Symbol.RET0 || this == Symbol.RET4
+    private fun Symbol.isReturnSymbol(): Boolean = this == Symbol.RET || this == Symbol.RET0 || this == Symbol.RET4
 
-    private fun getTotalBranchCounts(labels: List<Token>): Int
-      {
+    private fun getTotalBranchCounts(labels: List<Token>): Int {
         var sum = 0
         for (label in labels)
             sum = sum + labelBranchCounts.getOrDefault(label.text, 0)
         return sum
-      }
-  }
+    }
+}
 

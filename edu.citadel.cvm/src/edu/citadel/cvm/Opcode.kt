@@ -5,8 +5,7 @@ package edu.citadel.cvm
  *
  * @constructor Construct an opcode with its machine instruction value.
  */
-enum class Opcode(val value : Byte)
-  {
+enum class Opcode(val value: Byte) {
     // halt opcode
     HALT(0),
 
@@ -94,64 +93,60 @@ enum class Opcode(val value : Byte)
     /**
      * Returns true if this opcode has no operands.
      */
-    fun isZeroOperandOpcode() : Boolean
-      {
-        return when (this)
-          {
-            ADD,      BITAND,  BITNOT, BITOR,   BITXOR, BYTE2INT,
-            DEC,      DIV,     GETCH,  GETINT,  HALT,   INC,
-            INT2BYTE, LOADB,   LOAD2B, LOADW,   LDCB0,  LDCB1,
-            LDCINT0,  LDCINT1, MOD,    MUL,     NEG,    NOT,
-            PUTBYTE,  PUTCH,   PUTINT, PUTEOL,  RET0,   RET4,
-            SHL,      SHR,     STOREB, STORE2B, STOREW, SUB   -> true
+    fun isZeroOperandOpcode(): Boolean {
+        return when (this) {
+            ADD, BITAND, BITNOT, BITOR, BITXOR, BYTE2INT,
+            DEC, DIV, GETCH, GETINT, HALT, INC,
+            INT2BYTE, LOADB, LOAD2B, LOADW, LDCB0, LDCB1,
+            LDCINT0, LDCINT1, MOD, MUL, NEG, NOT,
+            PUTBYTE, PUTCH, PUTINT, PUTEOL, RET0, RET4,
+            SHL, SHR, STOREB, STORE2B, STOREW, SUB -> true
+
             else -> false
-          }
-      }
+        }
+    }
 
     /**
      * Returns true if this opcode has a byte operand.
      */
-    fun isByteOperandOpcode() : Boolean = this == LDCB
+    fun isByteOperandOpcode(): Boolean = this == LDCB
 
     /**
      * Returns true if this opcode has an int operand.
      */
-    fun isIntOperandOpcode() : Boolean
-      {
-        return when (this)
-          {
-            ALLOC,   BR,      BE,    BNE,     BG,     BGE,  BL,
-            BLE,     BZ,      BNZ,   CALL,    GETSTR, LOAD, LDCINT,
-            LDLADDR, LDGADDR, PROC,  PROGRAM, PUTSTR, RET,  STORE  -> true
+    fun isIntOperandOpcode(): Boolean {
+        return when (this) {
+            ALLOC, BR, BE, BNE, BG, BGE, BL,
+            BLE, BZ, BNZ, CALL, GETSTR, LOAD, LDCINT,
+            LDLADDR, LDGADDR, PROC, PROGRAM, PUTSTR, RET, STORE -> true
+
             else -> false
-          }
-      }
+        }
+    }
 
-    fun toInt() : Int = value.toInt()
+    fun toInt(): Int = value.toInt()
 
-    companion object
-      {
+    companion object {
         // maps byte value of opcode to the opcode
         private val valueOpcodeMap = mutableMapOf<Byte, Opcode>()
 
-        init
-          {
+        init {
             for (opcode in values())
                 valueOpcodeMap[opcode.value] = opcode
-          }
+        }
 
         /**
          * Returns the opcode for the specified integer value,
          * or null if the value does not correspond to an opcode.
          */
-        fun toOpcode(n : Int) : Opcode? =
+        fun toOpcode(n: Int): Opcode? =
             if (n < 0 || n > 256) null else toOpcode(n.toByte())
 
         /**
          * Returns the opcode for the specified byte value,
          * or null if the value does not correspond to an opcode.
          */
-        fun toOpcode(b : Byte) : Opcode? = valueOpcodeMap[b]
-      }
-  }
+        fun toOpcode(b: Byte): Opcode? = valueOpcodeMap[b]
+    }
+}
 

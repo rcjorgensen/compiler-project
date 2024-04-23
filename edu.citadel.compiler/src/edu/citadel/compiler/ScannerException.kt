@@ -9,5 +9,4 @@ package edu.citadel.compiler
  * @param position the position in the source file where the error was detected.
  * @param errorMsg a brief message about the nature of the error.
  */
-class ScannerException(position : Position, errorMsg : String)
-    : CompilerException("Lexical", position, errorMsg)
+class ScannerException(position: Position, errorMsg: String) : CompilerException("Lexical", position, errorMsg)

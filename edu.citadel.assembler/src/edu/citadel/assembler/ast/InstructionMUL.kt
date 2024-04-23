@@ -8,10 +8,8 @@ import edu.citadel.assembler.Token
  * This class implements the abstract syntax tree for the assembly
  * language instruction MUL.
  */
-class InstructionMUL(labels : MutableList<Token>, opcode : Token)
-    : InstructionNoArgs(labels, opcode)
-  {
+class InstructionMUL(labels: MutableList<Token>, opcode: Token) : InstructionNoArgs(labels, opcode) {
     override fun assertOpcode() = assertOpcode(Symbol.MUL)
 
     override fun emit() = emit(Opcode.MUL)
-  }
+}

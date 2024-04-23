@@ -8,10 +8,8 @@ import edu.citadel.assembler.Token
  * This class implements the abstract syntax tree for the assembly
  * language instruction LOADB.
  */
-class InstructionLOADB(labels : MutableList<Token>, opcode : Token)
-    : InstructionNoArgs(labels, opcode)
-  {
+class InstructionLOADB(labels: MutableList<Token>, opcode: Token) : InstructionNoArgs(labels, opcode) {
     override fun assertOpcode() = assertOpcode(Symbol.LOADB)
 
     override fun emit() = emit(Opcode.LOADB)
-  }
+}

@@ -9,32 +9,26 @@ import edu.citadel.assembler.ast.*
  * IMPORTANT: This optimization should not be performed until after
  * the optimization for dead code elimination.
  */
-class ReturnSpecialConstants : Optimization
-  {
-    override fun optimize(instructions : MutableList<Instruction>, instNum : Int)
-      {
+class ReturnSpecialConstants : Optimization {
+    override fun optimize(instructions: MutableList<Instruction>, instNum: Int) {
         val instruction = instructions[instNum]
         val symbol = instruction.opcode.symbol
-        if (symbol == Symbol.RET)
-          {
+        if (symbol == Symbol.RET) {
             instruction as InstructionOneArg
             val arg = instruction.arg.text
-            val labels : MutableList<Token> = instruction.labels
+            val labels: MutableList<Token> = instruction.labels
 
-            if (arg == "0")
-              {
+            if (arg == "0") {
                 // replace RET 0 with RET0
                 val retToken = Token(Symbol.RET0)
                 val retInst = InstructionRET0(labels, retToken)
                 instructions[instNum] = retInst
-              }
-            else if (arg == "4")
-              {
+            } else if (arg == "4") {
                 // replace RET 4 with RET4
                 val retToken = Token(Symbol.RET4)
                 val retInst = InstructionRET4(labels, retToken)
                 instructions[instNum] = retInst
-              }
-          }
-      }
-  }
+            }
+        }
+    }
+}

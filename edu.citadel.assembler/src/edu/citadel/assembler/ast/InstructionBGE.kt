@@ -9,23 +9,19 @@ import edu.citadel.assembler.Token
  * This class implements the abstract syntax tree for the assembly
  * language instruction BGE.
  */
-class InstructionBGE(labels : MutableList<Token>, opcode : Token, arg : Token)
-    : InstructionOneArg(labels, opcode, arg)
-  {
-    override val argSize : Int
+class InstructionBGE(labels: MutableList<Token>, opcode: Token, arg: Token) : InstructionOneArg(labels, opcode, arg) {
+    override val argSize: Int
         get() = Constants.BYTES_PER_INTEGER
 
     override fun assertOpcode() = assertOpcode(Symbol.BGE)
 
-    override fun checkArgType()
-      {
+    override fun checkArgType() {
         checkArgType(Symbol.identifier)
         checkLabelArgDefined()
-      }
+    }
 
-    override fun emit()
-      {
+    override fun emit() {
         emit(Opcode.BGE)
         emit(getDisplacement(arg))
-      }
-  }
+    }
+}

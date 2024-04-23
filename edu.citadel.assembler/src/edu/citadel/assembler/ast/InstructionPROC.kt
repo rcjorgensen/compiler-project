@@ -9,19 +9,16 @@ import edu.citadel.assembler.Token
  * This class implements the abstract syntax tree for the assembly
  * language instruction PROC.
  */
-class InstructionPROC(labels : MutableList<Token>, opcode : Token, arg : Token)
-    : InstructionOneArg(labels, opcode, arg)
-  {
-    override val argSize : Int
+class InstructionPROC(labels: MutableList<Token>, opcode: Token, arg: Token) : InstructionOneArg(labels, opcode, arg) {
+    override val argSize: Int
         get() = Constants.BYTES_PER_INTEGER
 
     override fun assertOpcode() = assertOpcode(Symbol.PROC)
 
     override fun checkArgType() = checkArgType(Symbol.intLiteral)
 
-    override fun emit()
-      {
+    override fun emit() {
         emit(Opcode.PROC)
         emit(argToInt())
-      }
-  }
+    }
+}

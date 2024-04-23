@@ -8,17 +8,14 @@ import java.io.PrintStream
 /*
  * Test class Source.
  */
-fun main(args : Array<String>)
-  {
-    try
-      {
+fun main(args: Array<String>) {
+    try {
         val fileName = args[0]
-        val reader   = FileReader(fileName, Charsets.UTF_8)
-        val source   = Source(reader)
-        val out      = PrintStream(System.out, true, Charsets.UTF_8)
+        val reader = FileReader(fileName, Charsets.UTF_8)
+        val source = Source(reader)
+        val out = PrintStream(System.out, true, Charsets.UTF_8)
 
-        while (source.currentChar != source.EOF)
-          {
+        while (source.currentChar != source.EOF) {
             val c = source.currentChar.toChar()
 
             if (c == '\n')
@@ -27,10 +24,8 @@ fun main(args : Array<String>)
                 out.println("$c\t ${source.charPosition}")
 
             source.advance()
-          }
-      }
-    catch (e : Exception)
-      {
+        }
+    } catch (e: Exception) {
         e.printStackTrace()
-      }
-  }
+    }
+}

@@ -7,8 +7,7 @@ package edu.citadel.assembler
  * @constructor Construct a symbol.  Specify the number of arguments
  *              for symbols corresponding to opcodes.
  */
-enum class Symbol(val numArgs : Int = 0)
-  {
+enum class Symbol(val numArgs: Int = 0) {
     // halt opcode
     HALT,
 
@@ -102,6 +101,6 @@ enum class Symbol(val numArgs : Int = 0)
     // special scanning symbols
     EOF;
 
-    val isOpcode : Boolean
+    val isOpcode: Boolean
         get() = this < UNKNOWN
-  }
+}

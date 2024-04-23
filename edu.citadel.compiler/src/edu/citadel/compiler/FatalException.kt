@@ -8,5 +8,4 @@ package edu.citadel.compiler
  * @constructor Construct a fatal exception with the specified error message.
  * @param       errorMsg a brief message about the nature of the error.
  */
-class FatalException(errorMsg : String)
-    : CompilerException("*** Fatal exception: $errorMsg")
+class FatalException(errorMsg: String) : CompilerException("*** Fatal exception: $errorMsg")

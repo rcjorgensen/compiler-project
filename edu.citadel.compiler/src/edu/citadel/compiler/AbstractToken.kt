@@ -8,9 +8,8 @@ package edu.citadel.compiler
  * @constructor Constructs a new token with the given symbol, position, and text.
  */
 abstract class AbstractToken<Symbol : Enum<Symbol>>
-    (val symbol : Symbol, val position : Position, text : String)
-  {
-    var text : String = text.ifEmpty { symbol.toString() }
+    (val symbol: Symbol, val position: Position, text: String) {
+    var text: String = text.ifEmpty { symbol.toString() }
 
     override fun toString() = text
-  }
+}

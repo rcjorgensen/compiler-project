@@ -8,10 +8,8 @@ import edu.citadel.assembler.Token
  * This class implements the abstract syntax tree for the assembly
  * language instruction STOREW.
  */
-class InstructionSTOREW(labels : MutableList<Token>, opcode : Token)
-    : InstructionNoArgs(labels, opcode)
-  {
+class InstructionSTOREW(labels: MutableList<Token>, opcode: Token) : InstructionNoArgs(labels, opcode) {
     override fun assertOpcode() = assertOpcode(Symbol.STOREW)
 
     override fun emit() = emit(Opcode.STOREW)
-  }
+}

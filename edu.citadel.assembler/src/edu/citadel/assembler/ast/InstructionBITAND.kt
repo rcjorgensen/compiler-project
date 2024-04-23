@@ -9,10 +9,8 @@ import java.io.IOException
  * This class implements the abstract syntax tree for the assembly
  * language instruction BITAND.
  */
-class InstructionBITAND(labels : MutableList<Token>, opcode : Token)
-    : InstructionNoArgs(labels, opcode)
-  {
+class InstructionBITAND(labels: MutableList<Token>, opcode: Token) : InstructionNoArgs(labels, opcode) {
     override fun assertOpcode() = assertOpcode(Symbol.BITAND)
 
     override fun emit() = emit(Opcode.BITAND)
-  }
+}

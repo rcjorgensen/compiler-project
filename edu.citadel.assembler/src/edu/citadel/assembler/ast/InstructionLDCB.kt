@@ -8,10 +8,8 @@ import edu.citadel.assembler.Token
  * This class implements the abstract syntax tree for the assembly
  * language instruction LDCB.
  */
-class InstructionLDCB(labels : MutableList<Token>, opcode : Token, arg : Token)
-    : InstructionOneArg(labels, opcode, arg)
-  {
-    override val argSize : Int
+class InstructionLDCB(labels: MutableList<Token>, opcode: Token, arg: Token) : InstructionOneArg(labels, opcode, arg) {
+    override val argSize: Int
         get() = 1
 
     override fun assertOpcode() = assertOpcode(Symbol.LDCB)
@@ -22,4 +20,4 @@ class InstructionLDCB(labels : MutableList<Token>, opcode : Token, arg : Token)
         emit(Opcode.LDCB)
         emit(argToByte())
     }
-  }
+}

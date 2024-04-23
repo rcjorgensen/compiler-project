@@ -9,23 +9,19 @@ import edu.citadel.assembler.Token
  * This class implements the abstract syntax tree for the assembly
  * language instruction BL.
  */
-class InstructionBL(labels : MutableList<Token>, opcode : Token, arg : Token)
-    : InstructionOneArg(labels, opcode, arg)
-  {
-    override val argSize : Int
+class InstructionBL(labels: MutableList<Token>, opcode: Token, arg: Token) : InstructionOneArg(labels, opcode, arg) {
+    override val argSize: Int
         get() = Constants.BYTES_PER_INTEGER
 
     override fun assertOpcode() = assertOpcode(Symbol.BL)
 
-    override fun checkArgType()
-      {
+    override fun checkArgType() {
         checkArgType(Symbol.identifier)
         checkLabelArgDefined()
-      }
+    }
 
-    override fun emit()
-      {
+    override fun emit() {
         emit(Opcode.BL)
         emit(getDisplacement(arg))
-      }
-  }
+    }
+}

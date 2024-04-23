@@ -14,10 +14,8 @@ import edu.citadel.assembler.ast.InstructionOneArg
  * patterns of the form "LDCINT 1, LDLADDR x, LOADW, ADD" and replaces it
  * with "LDLADDR x, LOADW, INC", and similarly for SUB.
  */
-class IncDec2 : Optimization
-  {
-    override fun optimize(instructions : MutableList<Instruction>, instNum : Int)
-      {
+class IncDec2 : Optimization {
+    override fun optimize(instructions: MutableList<Instruction>, instNum: Int) {
         // quick check that there are at least four instructions remaining
         if (instNum > instructions.size - 4)
             return
@@ -39,27 +37,22 @@ class IncDec2 : Optimization
         instruction0 as InstructionOneArg
         val arg0 = instruction0.arg.text
 
-        if (arg0 == "1")
-          {
+        if (arg0 == "1") {
             val symbol3 = instruction3.opcode.symbol
 
-            if (symbol3 == Symbol.ADD)
-              {
+            if (symbol3 == Symbol.ADD) {
                 // replace ADD with INC
                 val incToken = Token(Symbol.INC)
-                val labels   = instruction3.labels
-                val incInst  = InstructionINC(labels, incToken)
+                val labels = instruction3.labels
+                val incInst = InstructionINC(labels, incToken)
                 instructions[instNum + 3] = incInst
-              }
-            else if (symbol3 == Symbol.SUB)
-              {
+            } else if (symbol3 == Symbol.SUB) {
                 // replace SUB with DEC
                 val decToken = Token(Symbol.DEC)
-                val labels   = instruction3.labels
-                val decInst  = InstructionDEC(labels, decToken)
+                val labels = instruction3.labels
+                val decInst = InstructionDEC(labels, decToken)
                 instructions[instNum + 3] = decInst
-              }
-            else
+            } else
                 return
 
             // copy labels from inst0 to inst1 before removing it
@@ -68,6 +61,6 @@ class IncDec2 : Optimization
 
             // remove the LDCINT instruction
             instructions.removeAt(instNum)
-          }
-      }
-  }
+        }
+    }
+}

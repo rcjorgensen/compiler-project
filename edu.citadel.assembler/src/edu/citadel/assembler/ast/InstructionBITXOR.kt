@@ -9,10 +9,8 @@ import java.io.IOException
  * This class implements the abstract syntax tree for the assembly
  * language instruction BITXOR.
  */
-class InstructionBITXOR(labels : MutableList<Token>, opcode : Token)
-    : InstructionNoArgs(labels, opcode)
-  {
+class InstructionBITXOR(labels: MutableList<Token>, opcode: Token) : InstructionNoArgs(labels, opcode) {
     override fun assertOpcode() = assertOpcode(Symbol.BITXOR)
 
     override fun emit() = emit(Opcode.BITXOR)
-  }
+}

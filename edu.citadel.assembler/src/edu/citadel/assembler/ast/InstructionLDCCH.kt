@@ -9,20 +9,17 @@ import edu.citadel.assembler.Token
  * This class implements the abstract syntax tree for the assembly
  * language instruction LDCCH.
  */
-class InstructionLDCCH(labels : MutableList<Token>, opcode : Token, arg : Token)
-    : InstructionOneArg(labels, opcode, arg)
-  {
-    override val argSize : Int
+class InstructionLDCCH(labels: MutableList<Token>, opcode: Token, arg: Token) : InstructionOneArg(labels, opcode, arg) {
+    override val argSize: Int
         get() = Constants.BYTES_PER_CHAR
 
     override fun assertOpcode() = assertOpcode(Symbol.LDCCH)
 
     override fun checkArgType() = checkArgType(Symbol.charLiteral)
 
-    override fun emit()
-      {
+    override fun emit() {
         val argCH = arg.text[1]
         emit(Opcode.LDCCH)
         emit(argCH)
-      }
-  }
+    }
+}

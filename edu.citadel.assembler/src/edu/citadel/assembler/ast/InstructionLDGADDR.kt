@@ -9,19 +9,17 @@ import edu.citadel.assembler.Token
  * This class implements the abstract syntax tree for the assembly
  * language instruction LDGADDR.
  */
-class InstructionLDGADDR(labels : MutableList<Token>, opcode : Token, arg : Token)
-    : InstructionOneArg(labels, opcode, arg)
-  {
-    override val argSize : Int
+class InstructionLDGADDR(labels: MutableList<Token>, opcode: Token, arg: Token) :
+    InstructionOneArg(labels, opcode, arg) {
+    override val argSize: Int
         get() = Constants.BYTES_PER_INTEGER
 
-    override fun assertOpcode() =assertOpcode(Symbol.LDGADDR)
+    override fun assertOpcode() = assertOpcode(Symbol.LDGADDR)
 
     override fun checkArgType() = checkArgType(Symbol.intLiteral)
 
-    override fun emit()
-      {
+    override fun emit() {
         emit(Opcode.LDGADDR)
         emit(argToInt())
-      }
-  }
+    }
+}

@@ -9,23 +9,19 @@ import edu.citadel.assembler.Token
  * This class implements the abstract syntax tree for the assembly
  * language instruction BNZ.
  */
-class InstructionBNZ(labels : MutableList<Token>, opcode : Token, arg : Token)
-    : InstructionOneArg(labels, opcode, arg)
-  {
-    override val argSize : Int
+class InstructionBNZ(labels: MutableList<Token>, opcode: Token, arg: Token) : InstructionOneArg(labels, opcode, arg) {
+    override val argSize: Int
         get() = Constants.BYTES_PER_INTEGER
 
     override fun assertOpcode() = assertOpcode(Symbol.BNZ)
 
-    override fun checkArgType()
-      {
+    override fun checkArgType() {
         checkArgType(Symbol.identifier)
         checkLabelArgDefined()
-      }
+    }
 
-    override fun emit()
-      {
+    override fun emit() {
         emit(Opcode.BNZ)
         emit(getDisplacement(arg))
-      }
-  }
+    }
+}

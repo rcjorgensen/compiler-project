@@ -12,10 +12,8 @@ import kotlin.system.exitProcess
 
 private val out = PrintStream(java.lang.System.out, true, Charsets.UTF_8)
 
-fun main(args : Array<String>)
-  {
-    try
-      {
+fun main(args: Array<String>) {
+    try {
         // check args
         if (args.size != 1)
             printUsageAndExit()
@@ -24,50 +22,47 @@ fun main(args : Array<String>)
 
         val fileName = args[0]
         val errorHandler = ErrorHandler()
-        val reader  = FileReader(fileName, Charsets.UTF_8)
-        val source  = Source(reader)
+        val reader = FileReader(fileName, Charsets.UTF_8)
+        val source = Source(reader)
         val scanner = Scanner(source, 4, errorHandler)   // 4 lookahead tokens
-        var token : Token
+        var token: Token
 
         println("starting main loop...")
         println()
 
-        do
-          {
+        do {
             token = scanner.token
             printToken(token)
             scanner.advance()
-          }
-        while (token.symbol != Symbol.EOF)
+        } while (token.symbol != Symbol.EOF)
 
         println()
         println("...done")
-      }
-    catch (e : Exception)
-      {
+    } catch (e: Exception) {
         e.printStackTrace()
-      }
-  }
+    }
+}
 
-private fun printToken(token : Token)
-  {
-    out.printf("line: %2d   char: %2d   token: ",
+private fun printToken(token: Token) {
+    out.printf(
+        "line: %2d   char: %2d   token: ",
         token.position.lineNumber,
-        token.position.charNumber)
+        token.position.charNumber
+    )
 
     val symbol = token.symbol
     if (symbol.isReservedWord())
         out.print("Reserved Word -> ")
-    else if (symbol == Symbol.identifier    || symbol == Symbol.intLiteral
-          || symbol == Symbol.stringLiteral || symbol == Symbol.charLiteral)
+    else if (symbol == Symbol.identifier || symbol == Symbol.intLiteral
+        || symbol == Symbol.stringLiteral || symbol == Symbol.charLiteral
+    )
         out.print(token.symbol.toString() + " -> ")
 
     out.println(token.text)
-  }
+}
 
-private fun printUsageAndExit()
-  {
+private fun printUsageAndExit() {
     println("Usage: java TestScanner <test file>")
     println()
     exitProcess(0)
-  }
+}

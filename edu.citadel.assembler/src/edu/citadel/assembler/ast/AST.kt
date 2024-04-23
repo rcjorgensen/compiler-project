@@ -12,13 +12,12 @@ import java.io.OutputStream
 /**
  * Base class for all abstract syntax trees.
  */
-abstract class AST
-  {
+abstract class AST {
     /**
      * Create a constraint exception with the specified position and message.
      */
-    protected fun error(errorPosition : Position, errorMessage : String) : ConstraintException
-        = ConstraintException(errorPosition, errorMessage)
+    protected fun error(errorPosition: Position, errorMessage: String): ConstraintException =
+        ConstraintException(errorPosition, errorMessage)
 
     /**
      * Emit the instruction opcode.
@@ -28,17 +27,17 @@ abstract class AST
     /**
      * Emit a byte argument for the instruction.
      */
-    protected fun emit(arg : Byte) = out.write(arg.toInt())
+    protected fun emit(arg: Byte) = out.write(arg.toInt())
 
     /**
      * Emit an integer argument for the instruction.
      */
-    protected fun emit(arg : Int) = out.write(ByteUtil.intToBytes(arg))
+    protected fun emit(arg: Int) = out.write(ByteUtil.intToBytes(arg))
 
     /**
      * Emit a character argument for the instruction.
      */
-    protected fun emit(arg : Char) = out.write(ByteUtil.charToBytes(arg))
+    protected fun emit(arg: Char) = out.write(ByteUtil.charToBytes(arg))
 
     /**
      * Check semantic/contextual constraints.
@@ -50,27 +49,25 @@ abstract class AST
      */
     abstract fun emit()
 
-    companion object
-      {
+    companion object {
         /**
          * The output stream to be used for code generation.
          */
-        lateinit var out : OutputStream
+        lateinit var out: OutputStream
 
         /**
          * The error handler to be used for code generation.
          */
-        lateinit var errorHandler : ErrorHandler
+        lateinit var errorHandler: ErrorHandler
 
         /**
          * Initializes static members that are shared with all instructions.
          * The members must be re-initialized each time that the assembler is
          * run on a different file; e.g., via a command like assemble *.asm.
          */
-        fun reset(errorHandler : ErrorHandler)
-          {
+        fun reset(errorHandler: ErrorHandler) {
             AST.errorHandler = errorHandler
             Instruction.resetMaps()
-          }
-      }
-  }
+        }
+    }
+}

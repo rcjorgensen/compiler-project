@@ -8,7 +8,6 @@ package edu.citadel.compiler
  *
  * @constructor Construct a position with the given line number and character number.
  */
-class Position(val lineNumber : Int = 0, val charNumber : Int = 0)
-  {
+class Position(val lineNumber: Int = 0, val charNumber: Int = 0) {
     override fun toString() = "line $lineNumber, character $charNumber"
-  }
+}

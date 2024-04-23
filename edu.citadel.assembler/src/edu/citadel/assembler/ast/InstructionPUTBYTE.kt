@@ -8,10 +8,8 @@ import edu.citadel.assembler.Token
  * This class implements the abstract syntax tree for the assembly
  * language instruction PUTBYTE.
  */
-class InstructionPUTBYTE(labels : MutableList<Token>, opcode : Token)
-    : InstructionNoArgs(labels, opcode)
-  {
+class InstructionPUTBYTE(labels: MutableList<Token>, opcode: Token) : InstructionNoArgs(labels, opcode) {
     override fun assertOpcode() = assertOpcode(Symbol.PUTBYTE)
 
     override fun emit() = emit(Opcode.PUTBYTE)
-  }
+}

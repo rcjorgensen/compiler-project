@@ -9,10 +9,8 @@ import edu.citadel.assembler.ast.InstructionOneArg
  * ALLOC instructions.  This optimization replaces an instruction sequence
  * of the form ALLOC n, ALLOC m with ALLOC (n + m).
  */
-class Allocate : Optimization
-  {
-    override fun optimize(instructions : MutableList<Instruction>, instNum : Int)
-      {
+class Allocate : Optimization {
+    override fun optimize(instructions: MutableList<Instruction>, instNum: Int) {
         // quick check that there are at least 2 instructions remaining
         if (instNum > instructions.size - 2)
             return
@@ -23,22 +21,20 @@ class Allocate : Optimization
         val symbol1 = instruction1.opcode.symbol
 
         // Check that we have two ALLOC symbols.
-        if (symbol0 == Symbol.ALLOC && symbol1 == Symbol.ALLOC)
-          {
+        if (symbol0 == Symbol.ALLOC && symbol1 == Symbol.ALLOC) {
             val inst0 = instruction0 as InstructionOneArg
             val constValue0 = inst0.argToInt()
             val inst1 = instruction1 as InstructionOneArg
             val constValue1 = inst1.argToInt()
 
             // Make sure that the second ALLOC instruction does not have any labels.
-            if (instruction1.labels.isEmpty())
-              {
+            if (instruction1.labels.isEmpty()) {
                 // We are free to make this optimization.
                 inst0.arg.text = Integer.toString(constValue0 + constValue1)
 
                 // remove the second ALLOC instruction
                 instructions.removeAt(instNum + 1)
-              }
-          }
-      }
-  }
+            }
+        }
+    }
+}

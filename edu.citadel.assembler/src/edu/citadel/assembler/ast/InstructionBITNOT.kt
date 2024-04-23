@@ -9,10 +9,8 @@ import java.io.IOException
  * This class implements the abstract syntax tree for the assembly
  * language instruction BITNOT.
  */
-class InstructionBITNOT(labels : MutableList<Token>, opcode : Token)
-    : InstructionNoArgs(labels, opcode)
-  {
+class InstructionBITNOT(labels: MutableList<Token>, opcode: Token) : InstructionNoArgs(labels, opcode) {
     override fun assertOpcode() = assertOpcode(Symbol.BITNOT)
 
     override fun emit() = emit(Opcode.BITNOT)
-  }
+}
