@@ -5,6 +5,7 @@ import edu.citadel.compiler.Position
 import edu.citadel.compiler.ScannerException
 import edu.citadel.compiler.Source
 
+
 /**
  * Performs lexical analysis for the CPRL programming language.
  * Implements k tokens of lookahead.
@@ -22,6 +23,9 @@ class Scanner(
     // buffer to hold identifiers and literals
     private val scanBuffer = StringBuilder(100)
 
+    private val reservedWords = ArrayList<Symbol>(50)
+
+
     /**
      * Initialize scanner and advance to the first token.
      */
@@ -29,6 +33,12 @@ class Scanner(
         // fill buffer with k tokens
         for (i in 0 until k)
             advance()
+
+        for (symbol in Symbol.entries) {
+            if (symbol.isReservedWord()) {
+                reservedWords.add(symbol)
+            }
+        }
     }
 
     /**
@@ -155,12 +165,19 @@ class Scanner(
         return Token(symbol, position, text)
     }
 
+
     /**
      * Returns the symbol associated with an identifier
      * (Symbol.arrayRW, Symbol.ifRW, Symbol.identifier, etc.)
      */
     private fun getIdentifierSymbol(idString: String): Symbol {
-// ...  Hint: Need an efficient search based on the text of the identifier (parameter idString)
+        for (i in reservedWords.indices) {
+            if (idString == reservedWords[i].toString()) {
+                return reservedWords[i]
+            }
+        }
+
+        return Symbol.identifier
     }
 
     /**
