@@ -123,13 +123,24 @@ class Scanner(
             } else if (isDigit(source.currentChar.toChar())) {
                 symbol = Symbol.intLiteral
                 text = scanIntegerLiteral()
+            } else if (isDoubleQuote(source.currentChar.toChar())) {
+                symbol = Symbol.stringLiteral
+                text = scanStringLiteral()
+            } else if (isSingleQuote(source.currentChar.toChar())) {
+                symbol = Symbol.charLiteral
+                text = scanCharLiteral()
             } else {
                 when (source.currentChar.toChar()) {
                     '+' -> {
                         symbol = Symbol.plus
                         source.advance()
                     }
-// ...
+
+                    '-' -> {
+                        symbol = Symbol.minus
+                        source.advance()
+                    }
+
                     '/' -> {
                         source.advance()
                         if (source.currentChar.toChar() == '/') {
@@ -138,7 +149,12 @@ class Scanner(
                         } else
                             symbol = Symbol.divide
                     }
-// ...
+
+                    '*' -> {
+                        symbol = Symbol.times
+                        source.advance()
+                    }
+
                     '<' -> {
                         source.advance()
                         if (source.currentChar.toChar() == '=') {
@@ -147,7 +163,16 @@ class Scanner(
                         } else
                             symbol = Symbol.lessThan
                     }
-// ...
+
+                    '>' -> {
+                        source.advance()
+                        if (source.currentChar.toChar() == '=') {
+                            symbol = Symbol.greaterOrEqual
+                            source.advance()
+                        } else
+                            symbol = Symbol.greaterThan
+                    }
+
                     else -> {
                         // error:  invalid character
                         val errorMsg = "Invalid character \'${source.currentChar.toChar()}\'"
@@ -205,7 +230,15 @@ class Scanner(
         // assumes that source.currentChar is the first letter of the identifier
         assert(isLetter(source.currentChar.toChar()))
         { "Check identifier start for letter at position ${source.charPosition}." }
-// ...
+
+        scanBuffer.clear()
+
+        do {
+            scanBuffer.append(source.currentChar.toChar())
+            source.advance()
+        } while (isLetterOrDigit(source.currentChar.toChar()))
+
+        return scanBuffer.toString()
     }
 
     /**
@@ -242,7 +275,37 @@ class Scanner(
         // assumes that source.currentChar is the opening double quote for the string literal
         assert(source.currentChar.toChar() == '\"')
         { "Check for opening quote (\") at position ${source.charPosition}." }
-// ...
+
+        val errorMsg = "Invalid String literal."
+        scanBuffer.clear()
+
+        // append the opening double quote
+        var c = source.currentChar.toChar()
+        scanBuffer.append(c)
+        source.advance()
+
+        do {
+            checkGraphicChar(source.currentChar)
+            c = source.currentChar.toChar()
+
+            if (c == '\\')   // escaped character
+                scanBuffer.append(scanEscapedChar())
+            else {
+                scanBuffer.append(c)
+                source.advance()
+            }
+        } while (!isDoubleQuote(source.currentChar.toChar()) && source.currentChar != source.EOF)
+
+        c = source.currentChar.toChar()   // should be the closing double quote
+        checkGraphicChar(c.code)
+
+        if (c == '"') {
+            scanBuffer.append(c)          // append closing quote
+            source.advance()
+        } else
+            throw error(errorMsg)
+
+        return scanBuffer.toString()
     }
 
     /**
@@ -395,6 +458,10 @@ class Scanner(
      * `'A'..'Z' + 'a'..'z + '0'..'9' (r.e. char class: [A-Za-z0-9])`
      */
     private fun isLetterOrDigit(ch: Char): Boolean = isLetter(ch) || isDigit(ch)
+
+    private fun isDoubleQuote(ch: Char): Boolean = ch == '"'
+
+    private fun isSingleQuote(ch: Char): Boolean = ch == '\''
 
     /**
      * Returns a ScannerException with the specified error message
